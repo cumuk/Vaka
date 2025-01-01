@@ -2,36 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define Nof_employees 100  // Maximum number of employees
-typedef enum {
-    Marketting,   // 0
-    IT,           // 1
-    Sales,        // 2
-    Finance,      // 3
-    HR,           // 4
-    depatment_count  // The total number of departments (5)
-}enumdp;
-
-typedef struct{
-    int id;                // Employee ID
-    char name[50];         // Employee Name
-    unsigned int age;      // Employee Age
-    enumdp department;     // Employee Department (represented as an enum)
-    unsigned int salary;   // Employee Salary
-}ty_employee;
+#include "vaka.h"
 
 // Array of department names (for display purposes)
 const char* departmentStrings[] = {"Marketting", "IT", "Sales","Finance","HR"};
 ty_employee employee[Nof_employees];  // Array to hold employee data
 
-// Function declarations
-int readcsv(ty_employee* employee, const char *filename); // Reads data from a CSV file
-int calculate_total_salary(const ty_employee* employee);  // Calculates total salary of all employees
-float calculate_avg_age(const ty_employee* employee);     // Calculates average age of employees
-int calculate_department_total_salary(const ty_employee* employee, enumdp departmenttype); // Calculates total salary for a specific department
-enumdp find_highest_paid_department(const ty_employee* employee);  // Finds the department with the highest total salary
-int deptEmployeeCount(const ty_employee* employee, enumdp departmenttype); // Counts the number of employees in a specific department
-char* formatNumber(int number);
+
 
 int main()
 {
@@ -57,7 +34,7 @@ int main()
         // Print the department with the highest salary and its total salary
         printf("Department with Highest Salary: %s ($%s) \n", departmentStrings[highPayDept], s_topdeptsalary);
         free(s_topdeptsalary); // Free dynamically allocated memory
-        
+
         // Print the number of employees per department
         printf("Employees per Department:\n");
         for(int i = 0; i < depatment_count; i++)  // Loop through each department
