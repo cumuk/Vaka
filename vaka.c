@@ -34,30 +34,33 @@ int deptEmployeeCount(const ty_employee* employee, enumdp departmenttype); // Co
 
 int main()
 {
+    
     // If the CSV file is successfully read
     if(readcsv(employee,"Data_Processor_Case_Study.csv"))
     {
+        int totalsalary = calculate_total_salary(employee);
         // Print total salary of all employees
-        printf("Total Salary: $%d\r", calculate_total_salary(employee));
+        printf("Total Salary: $%d\n",totalsalary );
 
         // Print average age of all employees
-        printf("Average Age: %.2f\r", calculate_avg_age(employee));
+        printf("Average Age: %.2f\n", calculate_avg_age(employee));
 
         // Find the department with the highest salary
         enumdp highPayDept = find_highest_paid_department(employee);
         int topdeptsalary = calculate_department_total_salary(employee, highPayDept);
 
         // Print the department with the highest salary and its total salary
-        printf("Department with Highest Salary: %s ($%d) \r", departmentStrings[highPayDept], topdeptsalary);
+        printf("Department with Highest Salary: %s ($%d) \n", departmentStrings[highPayDept], topdeptsalary);
 
         // Print the number of employees per department
-        printf("Employees per Department:\r");
+        printf("Employees per Department:\n");
         for(int i = 0; i < depatment_count; i++)  // Loop through each department
         {
-            printf("\t%s: %d\r", departmentStrings[i], deptEmployeeCount(employee, i));  // Display number of employees in the department
+            printf("\t%s: %d\n", departmentStrings[i], deptEmployeeCount(employee, i));  // Display number of employees in the department
         }
-    }
 
+    }
+ 
     return 0;
 }
 
