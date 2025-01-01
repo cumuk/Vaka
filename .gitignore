@@ -1,0 +1,19 @@
+# Geçici dosyalar
+*.tmp
+*.log
+
+# İşletim sistemi dosyaları
+.DS_Store
+Thumbs.db
+
+# IDE ve editör dosyaları
+.vscode/
+.idea/
+*.swp
+
+# Derleme çıktıları
+/build/
+*.o
+*.class
+*.exe
+
