@@ -31,6 +31,7 @@ float calculate_avg_age(const ty_employee* employee);     // Calculates average 
 int calculate_department_total_salary(const ty_employee* employee, enumdp departmenttype); // Calculates total salary for a specific department
 enumdp find_highest_paid_department(const ty_employee* employee);  // Finds the department with the highest total salary
 int deptEmployeeCount(const ty_employee* employee, enumdp departmenttype); // Counts the number of employees in a specific department
+char* formatNumber(int number);
 
 int main()
 {
@@ -39,8 +40,11 @@ int main()
     if(readcsv(employee,"Data_Processor_Case_Study.csv"))
     {
         int totalsalary = calculate_total_salary(employee);
+
+        char* s_totalsalary = formatNumber(totalsalary);
         // Print total salary of all employees
-        printf("Total Salary: $%d\n",totalsalary );
+        printf("Total Salary: $%s\n",s_totalsalary );
+        free(s_totalsalary); // Free dynamically allocated memory
 
         // Print average age of all employees
         printf("Average Age: %.2f\n", calculate_avg_age(employee));
@@ -48,10 +52,12 @@ int main()
         // Find the department with the highest salary
         enumdp highPayDept = find_highest_paid_department(employee);
         int topdeptsalary = calculate_department_total_salary(employee, highPayDept);
-
+        
+        char* s_topdeptsalary = formatNumber(topdeptsalary);
         // Print the department with the highest salary and its total salary
-        printf("Department with Highest Salary: %s ($%d) \n", departmentStrings[highPayDept], topdeptsalary);
-
+        printf("Department with Highest Salary: %s ($%s) \n", departmentStrings[highPayDept], s_topdeptsalary);
+        free(s_topdeptsalary); // Free dynamically allocated memory
+        
         // Print the number of employees per department
         printf("Employees per Department:\n");
         for(int i = 0; i < depatment_count; i++)  // Loop through each department
@@ -207,4 +213,41 @@ int deptEmployeeCount(const ty_employee* employee, enumdp departmenttype)
         }
     }
     return total;  // Return the total number of employees in the specified department
+}
+
+char* formatNumber(int number) {
+    char buffer[50]; // Temporary buffer to hold the number as a string
+    char* formatted; // Pointer for the formatted output string
+    int length, commaCount = 0, j = 0;
+
+    // Convert the number to a string
+    sprintf(buffer, "%d", number);
+    length = strlen(buffer);
+
+    // Set the starting index for negative numbers
+    int startIndex = 0;
+    if (buffer[0] == '-') {
+        startIndex = 1;
+    }
+
+    // Calculate the number of commas needed
+    commaCount = (length - startIndex - 1) / 3;
+
+    // Allocate memory for the formatted string
+    formatted = (char*)malloc(length + commaCount + 1); // Extra commas + null terminator
+
+    // Build the formatted string
+    if (startIndex == 1) {
+        formatted[j++] = '-';
+    }
+
+    for (int i = startIndex; i < length; i++) {
+        formatted[j++] = buffer[i];
+        if ((length - i - 1) % 3 == 0 && i != length - 1) {
+            formatted[j++] = ',';
+        }
+    }
+
+    formatted[j] = '\0'; // Add null terminator
+    return formatted;
 }
